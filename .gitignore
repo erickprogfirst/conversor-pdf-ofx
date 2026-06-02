@@ -1,0 +1,9 @@
+# Ignorar o ambiente virtual
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Ignorar pastas com PDFs de testes (para proteger dados internos/pessoais)
+pdfs_teste/
+*.pdf
