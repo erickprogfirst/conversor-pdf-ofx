@@ -1,19 +1,28 @@
 import os
 from core.roteador import identificar_e_rotear
 
-# Caminho do seu arquivo de teste (Cuidado com letras maiúsculas e minúsculas!)
-ARQUIVO_TESTE = "pdfs_teste/extrato_exemplo.pdf"
-
-def main():
-    # Verifica se você realmente colocou o PDF na pasta certa
-    if not os.path.exists(ARQUIVO_TESTE):
-        print(f"ERRO: O arquivo '{ARQUIVO_TESTE}' não foi encontrado!")
-        print("1. Verifique se a pasta 'pdfs_teste' existe.")
-        print("2. Verifique se o seu PDF está lá dentro com o nome 'extrato_exemplo.pdf'.")
+def iniciar_sistema():
+    pasta_pdfs = "pdfs_teste"
+    
+    # Verifica se a pasta existe
+    if not os.path.exists(pasta_pdfs):
+        print(f"Erro: A pasta '{pasta_pdfs}' não existe.")
         return
-        
-    # Se achou o arquivo, chama o roteador!
-    identificar_e_rotear(ARQUIVO_TESTE)
+
+    # Lista todos os arquivos que terminam com .pdf dentro da pasta
+    arquivos = [arq for arq in os.listdir(pasta_pdfs) if arq.lower().endswith('.pdf')]
+
+    if not arquivos:
+        print(f"Nenhum arquivo PDF encontrado na pasta '{pasta_pdfs}'.")
+        return
+
+    print(f"Iniciando o processamento em lote de {len(arquivos)} arquivo(s)...\n")
+
+    # Faz um loop para ler cada PDF encontrado
+    for arquivo in arquivos:
+        caminho_completo = os.path.join(pasta_pdfs, arquivo)
+        identificar_e_rotear(caminho_completo)
+        print("\n" + "="*50 + "\n")
 
 if __name__ == "__main__":
-    main()
+    iniciar_sistema()

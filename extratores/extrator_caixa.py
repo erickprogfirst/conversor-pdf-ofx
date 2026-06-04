@@ -7,9 +7,8 @@ import re
 pytesseract.pytesseract.tesseract_cmd = r'C:\Users\contabil07\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
 
 def limpar_historico(texto):
-    """Filtro químico com blindagem contra estilhaços de datas"""
+    """Filtro químico com blindagem contra estilhaços de datas e escudo Anti-CPF"""
     
-    # 1. Erros de cabeçalho e símbolos
     lixo_ocr = [r'\bCEREN\b', r'\bGATS\b', r'\bAIXA\b', r'\bCNPJ\b', r'\bDATA\b', r'\bEE\b', r'\bEPEE\b', r'\bCNPI\b']
     for padrao in lixo_ocr:
         texto = re.sub(padrao, '', texto, flags=re.IGNORECASE)
@@ -17,34 +16,27 @@ def limpar_historico(texto):
     texto = texto.replace('£', '').replace('¢', '')
     texto = re.sub(r'(?i)\b(ren|even|inate)\b', '', texto)
     
-    # 2. Desintegra o dinheiro e saldos residuais no final da linha
-    texto = re.sub(r'[-=]?\s*(R\$|RS|R\s\$).*$', '', texto, flags=re.IGNORECASE)
+    # CORREÇÃO: O (?!\d) e o (?:\s|^) garantem que a IA não corte CPFs no meio (ex: 43,06 de 3.43,063)
+    texto = re.sub(r'(?:\s|^)[-=]?\s*(?:R\$|RS|R\s\$)?\s*[-=]?\s*\d{1,3}(?:\.\d{3})*,\d{2}(?!\d).*$', '', texto, flags=re.IGNORECASE)
 
-    # 3. MÁQUINA DO TEMPO: Remove blocos inteiros de datas para não deixar números órfãos (15, 21, 22)
     texto = re.sub(r'\b\d{2}/\d{2}(?:/\d{4})?(?:\s+\d{2}:\d{2})?\b', '', texto)
-    texto = re.sub(r'\b\d{1,3}\s+\d{2}:\d{2}\b', '', texto) # Remove erro de OCR (ex: "104 10:52")
+    texto = re.sub(r'\b\d{1,3}\s+\d{2}:\d{2}\b', '', texto) 
     texto = re.sub(r'\b\d{2}:\d{2}\b', '', texto)
     
-    # 4. LIMPEZA CIRÚRGICA DOS ESTILHAÇOS QUE VOCÊ SUBLINHOU
-    # Remove /2026 ou /04 isolados (com espaço ANTES para proteger o CNPJ "0001-05")
     texto = re.sub(r'\s+/\d{2,4}\b', '', texto)
-    # Remove o "104" ou "04" grudado apenas na palavra SALARIO
     texto = re.sub(r'\b\d{1,3}\s+(SALARIO)\b', r'\1', texto, flags=re.IGNORECASE)
-    # Remove barras soltas antes do SALARIO
     texto = re.sub(r'/\s+(SALARIO)\b', r'\1', texto, flags=re.IGNORECASE)
     
-    # 5. Hashes gigantes (PIX) e códigos internos
     texto = re.sub(r'[A-Z0-9]{25,}', '', texto)
     texto = re.sub(r'\b\d{6,}\b', '', texto)
     
-    # 6. Caracteres que sujam o ERP
     texto = texto.replace('(', '').replace(')', '').replace('*', '').replace('-', ' ')
     
     return " ".join(texto.split())
 
-def extrair_dados_brutos(caminho_pdf):
+def extrair_dados_caixa(caminho_pdf):
     print("\n" + "="*50)
-    print(" FASE 3: MÁQUINA DE ESTADOS (ANTI-ESTILHAÇOS ATIVADO) ")
+    print(" FASE 3: MÁQUINA DE ESTADOS CAIXA ECONÔMICA (ESCUDO ANTI-CPF) ")
     print("="*50 + "\n")
     
     texto_completo = ""
@@ -67,9 +59,11 @@ def extrair_dados_brutos(caminho_pdf):
     data_memoria = None
     
     padrao_data = re.compile(r'(\d{2}/\d{2}/\d{4})')
-    padrao_valor = re.compile(r'([-=]?)\s*(?:R\$|RS)\s*([-=]?)\s*([\d\.]*,\d{2})', re.IGNORECASE)
+    
+    # CORREÇÃO: O Radar de dinheiro agora exige espaço antes e não permite outro número grudado depois
+    padrao_valor = re.compile(r'(?:^|\s)([-=]?)\s*(?:R\$|RS|R\s\$)?\s*([-=]?)\s*(\d{1,3}(?:\.\d{3})*,\d{2})(?!\d)', re.IGNORECASE)
 
-    gatilhos_nova = ["PIX RECEBIDO", "ENVIO TRANSF INTERNET", "DEPOSITO DINH LOTERICO", "MENSALIDADE CESTA SERVICO", "TARIFA RENOVACAO CADASTRO", "SEGURADORA"]
+    gatilhos_nova = ["PIX RECEBIDO", "ENVIO TRANSF INTERNET", "DEPOSITO DINH LOTERICO", "MENSALIDADE CESTA SERVICO", "TARIFA RENOVACAO CADASTRO", "SEGURADORA", "TARIFA PIX QR CODE VENDA SAFRAPAY"]
     palavras_rodape = ["SALDO DIA", "SAC CAIXA", "OUVIDORIA", "DEFICIÊNCIA", "ALÉ CAI", "ALÉ CAIXA", "GERENCIADOR"]
 
     ignorar_captura = True 
@@ -112,7 +106,7 @@ def extrair_dados_brutos(caminho_pdf):
             transacoes_estruturadas[-1]["Valor"] = valor_float
             
             if not gatilho_encontrado:
-                texto_antes = re.sub(r'[-=]?\s*(?:R\$|RS).*$', '', linha_original, flags=re.IGNORECASE).strip()
+                texto_antes = re.sub(r'(?:\s|^)[-=]?\s*(?:R\$|RS|R\s\$)?\s*[-=]?\s*\d{1,3}(?:\.\d{3})*,\d{2}(?!\d).*$', '', linha_original, flags=re.IGNORECASE).strip()
                 texto_antes_limpo = limpar_historico(texto_antes)
                 if texto_antes_limpo:
                     transacoes_estruturadas[-1]["Historico"] += f" {texto_antes_limpo}"
@@ -122,8 +116,23 @@ def extrair_dados_brutos(caminho_pdf):
             if texto_complemento:
                 transacoes_estruturadas[-1]["Historico"] += f" {texto_complemento}"
 
-    # O Pente-fino final
     for t in transacoes_estruturadas:
         t["Historico"] = limpar_historico(t["Historico"])[:100].strip()
 
-    return [t for t in transacoes_estruturadas if t["Valor"] != 0.0]
+    transacoes_finais = [t for t in transacoes_estruturadas if t["Valor"] != 0.0]
+    frequencia_transacoes = {}
+    
+    for t in transacoes_finais:
+        assinatura = f"{t['Data']}|{t['Historico']}|{t['Valor']}"
+        
+        if assinatura in frequencia_transacoes:
+            frequencia_transacoes[assinatura] += 1
+            t["Historico"] = f"{t['Historico']} {frequencia_transacoes[assinatura]:02d}"
+        else:
+            frequencia_transacoes[assinatura] = 1
+
+    print(f"✅ Encontradas {len(transacoes_finais)} transações prontas para o OFX:\n")
+    for t in transacoes_finais:
+        print(t)
+
+    return transacoes_finais
