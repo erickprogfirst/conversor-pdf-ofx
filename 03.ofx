@@ -1,0 +1,552 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:USASCII
+CHARSET:1252
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+
+<OFX>
+  <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <DTSERVER>20260602120000[-3:BRT]</DTSERVER>
+      <LANGUAGE>POR</LANGUAGE>
+    </SONRS>
+  </SIGNONMSGSRSV1>
+  <BANKMSGSRSV1>
+    <STMTTRNRS>
+      <TRNUID>1</TRNUID>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <STMTRS>
+        <CURDEF>BRL</CURDEF>
+        <BANKACCTFROM>
+          <BANKID>104</BANKID>
+          <ACCTID>999999999</ACCTID>
+          <ACCTTYPE>CHECKING</ACCTTYPE>
+        </BANKACCTFROM>
+        <BANKTRANLIST>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20260331120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>450.00</TRNAMT>
+            <FITID>DOC1</FITID>
+            <MEMO>CREDITO PIX MINHA ENTRADA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1050.30</TRNAMT>
+            <FITID>DOC2</FITID>
+            <MEMO>DEBITO PIX Elisiane Cunha da Silva</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC3</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1069.80</TRNAMT>
+            <FITID>DOC4</FITID>
+            <MEMO>DEBITO PIX Vanderleia da Cunha</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC5</FITID>
+            <MEMO>PIX TRANSF PAGADOR 02</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-633.33</TRNAMT>
+            <FITID>DOC6</FITID>
+            <MEMO>DEBITO PIX Lara Simoes Custoias</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1.27</TRNAMT>
+            <FITID>DOC7</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-958.33</TRNAMT>
+            <FITID>DOC8</FITID>
+            <MEMO>DEBITO PIX Ana da Rosa</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1.92</TRNAMT>
+            <FITID>DOC9</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1006.67</TRNAMT>
+            <FITID>DOC10</FITID>
+            <MEMO>DEBITO PIX Gleice Simoes Custoias</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC11</FITID>
+            <MEMO>PIX TRANSF PAGADOR 03</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-294.13</TRNAMT>
+            <FITID>DOC12</FITID>
+            <MEMO>PG.P/INTERNET OESA COMERCIO E</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-804.05</TRNAMT>
+            <FITID>DOC13</FITID>
+            <MEMO>PG.P/INTERNET BACK CONSULTORI</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-635.32</TRNAMT>
+            <FITID>DOC14</FITID>
+            <MEMO>PG.P/INTERNET CENTRAL LTDA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20260330120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>36648.06</TRNAMT>
+            <FITID>DOC15</FITID>
+            <MEMO>CREDITO PIX POLACO FESTAS E EVENTOS LTDA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260326120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1066.00</TRNAMT>
+            <FITID>DOC16</FITID>
+            <MEMO>DEBITO PIX PAULINEY PINTO DA SILVA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260326120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC17</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260326120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1620.00</TRNAMT>
+            <FITID>DOC18</FITID>
+            <MEMO>DEBITO PIX VIDA+LEVE DISTRIBUIDORA LTDA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260326120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC19</FITID>
+            <MEMO>PIX TRANSF PAGADOR 02</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260325120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-96.00</TRNAMT>
+            <FITID>DOC20</FITID>
+            <MEMO>DEBITO PIX COBRANCA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260325120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1000.00</TRNAMT>
+            <FITID>DOC21</FITID>
+            <MEMO>DEBITO PIX Edemir Gomes</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260325120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC22</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20260324120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>450.00</TRNAMT>
+            <FITID>DOC23</FITID>
+            <MEMO>CREDITO PIX MINHA ENTRADA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1004.10</TRNAMT>
+            <FITID>DOC24</FITID>
+            <MEMO>DEBITO PIX Elisiane Cunha da Silva</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC25</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1004.10</TRNAMT>
+            <FITID>DOC26</FITID>
+            <MEMO>DEBITO PIX Vanderleia da Cunha</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC27</FITID>
+            <MEMO>PIX TRANSF PAGADOR 02</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-505.00</TRNAMT>
+            <FITID>DOC28</FITID>
+            <MEMO>DEBITO PIX Lara Simoes Custoias</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-4.01</TRNAMT>
+            <FITID>DOC29</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1081.67</TRNAMT>
+            <FITID>DOC30</FITID>
+            <MEMO>DEBITO PIX Gleice Simoes Custoias</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC31</FITID>
+            <MEMO>PIX TRANSF PAGADOR 03</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1040.00</TRNAMT>
+            <FITID>DOC32</FITID>
+            <MEMO>DEBITO PIX Ana da Rosa</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC33</FITID>
+            <MEMO>PIX TRANSF PAGADOR 04</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20260323120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>28732.36</TRNAMT>
+            <FITID>DOC34</FITID>
+            <MEMO>CREDITO PIX POLACO FESTAS E EVENTOS LTDA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260320120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1498.00</TRNAMT>
+            <FITID>DOC35</FITID>
+            <MEMO>DEBITO PIX CROMIX COMUNICACAO VISUAL LTDA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260320120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC36</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260320120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1402.60</TRNAMT>
+            <FITID>DOC37</FITID>
+            <MEMO>DEBITO PIX BLUMENAU EVENTOS SERVICO DE PROMOCA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260320120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC38</FITID>
+            <MEMO>PIX TRANSF PAGADOR 02</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260319120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-11293.20</TRNAMT>
+            <FITID>DOC39</FITID>
+            <MEMO>PG.P/INTERNET BEBIDAS FRUK! S</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260319120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-15000.00</TRNAMT>
+            <FITID>DOC40</FITID>
+            <MEMO>DEBITO PIX NORBERTO METTE</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260319120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC41</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260318120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2500.00</TRNAMT>
+            <FITID>DOC42</FITID>
+            <MEMO>DEBITO PIX Alceu Sebastiao de Lima</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260318120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC43</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260317120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-808.10</TRNAMT>
+            <FITID>DOC44</FITID>
+            <MEMO>PG.P/INTERNET BACK CONSULTORI</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260317120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2796.62</TRNAMT>
+            <FITID>DOC45</FITID>
+            <MEMO>PG.P/INTERNET SEGALAS ALIMENT</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260317120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-908.56</TRNAMT>
+            <FITID>DOC46</FITID>
+            <MEMO>PG.P/INTERNET SEGALAS ALIMENT</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-589.50</TRNAMT>
+            <FITID>DOC47</FITID>
+            <MEMO>DEBITO PIX Elisiane Cunha da Silva</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1.18</TRNAMT>
+            <FITID>DOC48</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-394.50</TRNAMT>
+            <FITID>DOC49</FITID>
+            <MEMO>DEBITO PIX Deiseane Da Cunha</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-0.79</TRNAMT>
+            <FITID>DOC50</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-801.30</TRNAMT>
+            <FITID>DOC51</FITID>
+            <MEMO>DEBITO PIX Vanderleia da Cunha</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1.60</TRNAMT>
+            <FITID>DOC52</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-505.00</TRNAMT>
+            <FITID>DOC53</FITID>
+            <MEMO>DEBITO PIX Lara Simoes Custoias</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-4.01</TRNAMT>
+            <FITID>DOC54</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-813.33</TRNAMT>
+            <FITID>DOC55</FITID>
+            <MEMO>DEBITO PIX Ana da Rosa</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1.63</TRNAMT>
+            <FITID>DOC56</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-845.00</TRNAMT>
+            <FITID>DOC57</FITID>
+            <MEMO>DEBITO PIX Gleice Simoes Custoias</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1.69</TRNAMT>
+            <FITID>DOC58</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>26617.53</TRNAMT>
+            <FITID>DOC59</FITID>
+            <MEMO>CREDITO PIX POLACO FESTAS E EVENTOS LTDA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20260316120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>24731.16</TRNAMT>
+            <FITID>DOC60</FITID>
+            <MEMO>CREDITO PIX ELEVEN360 TECNOLOGIA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260313120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-65.00</TRNAMT>
+            <FITID>DOC61</FITID>
+            <MEMO>DB. COTAS</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260311120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-149.70</TRNAMT>
+            <FITID>DOC62</FITID>
+            <MEMO>PG.P/INTERNET AGUA SABOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260310120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1200.00</TRNAMT>
+            <FITID>DOC63</FITID>
+            <MEMO>DEBITO PIX Edemir Gomes</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260310120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC64</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260309120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-684.00</TRNAMT>
+            <FITID>DOC65</FITID>
+            <MEMO>DEBITO PIX Elisiane Cunha da Silva</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260309120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1.37</TRNAMT>
+            <FITID>DOC66</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260309120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-800.00</TRNAMT>
+            <FITID>DOC67</FITID>
+            <MEMO>DEBITO PIX Gleice Simoes Custoias</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260309120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1.60</TRNAMT>
+            <FITID>DOC68</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260309120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2250.00</TRNAMT>
+            <FITID>DOC69</FITID>
+            <MEMO>DEBITO PIX Alceu Sebastiao de Lima</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260309120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-2.00</TRNAMT>
+            <FITID>DOC70</FITID>
+            <MEMO>PIX TRANSF PAGADOR</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20260309120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>5535.30</TRNAMT>
+            <FITID>DOC71</FITID>
+            <MEMO>CREDITO PIX POLACO FESTAS E EVENTOS LTDA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20260303120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-9000.00</TRNAMT>
+            <FITID>DOC72</FITID>
+            <MEMO>PG.P/INTERNET PROPRIO BLUMENA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20260303120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>3000.00</TRNAMT>
+            <FITID>DOC73</FITID>
+            <MEMO>CREDITO PIX LA FEDERAL CANTINA LTDA</MEMO>
+          </STMTTRN>
+        </BANKTRANLIST>
+      </STMTRS>
+    </STMTTRNRS>
+  </BANKMSGSRSV1>
+</OFX>

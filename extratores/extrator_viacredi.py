@@ -7,28 +7,35 @@ import re
 pytesseract.pytesseract.tesseract_cmd = r'C:\Users\contabil07\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
 
 def limpar_historico_viacredi(texto):
-    """Filtro químico exclusivo para o layout do Viacredi (Ailos)"""
+    """Filtro químico do Viacredi com corretor ortográfico de OCR"""
     
-    lixo_ocr = [r'\bAILOS\b', r'\bSISTEMA DE COOPERATIVAS\b', r'\bEXTRATO\b', r'\bSALDO ANTERIOR\b', r'\bTOTAL\b', r'\bSAC\b', r'\bOUVIDORIA\b', r'\bCRÉDITO\b', r'\bDÉBITO\b']
+    lixo_ocr = [
+        r'\bAILOS\b', r'\bSISTEMA DE COOPERATIVAS\b', r'\bEXTRATO\b', 
+        r'\bSALDO ANTERIOR\b', r'\bTOTAL\b', r'\bSAC\b', r'\bOUVIDORIA\b', 
+        r'\bCRÉDITO\b', r'\bDÉBITO\b'
+    ]
     for padrao in lixo_ocr:
         texto = re.sub(padrao, '', texto, flags=re.IGNORECASE)
         
-    texto = re.sub(r'(?:\s|^)[-=]?\s*\d{1,3}(?:\.\d{3})*,\d{2}(?!\d).*$', '', texto, flags=re.IGNORECASE)
-
-    # CORREÇÃO: Remove datas mesmo que o dia tenha apenas 1 dígito (ex: 2/02/2026)
+    # CORREÇÃO 1: Tolerância a espaços injetados nos valores (ex: 548, 00)
+    texto = re.sub(r'(?:\s|^)[-=]?\s*\d{1,3}(?:\s*\.\s*\d{3})*\s*,\s*\d{2}(?!\d).*$', '', texto, flags=re.IGNORECASE)
+    
     texto = re.sub(r'\b\d{1,2}/\d{2}/\d{4}\b', '', texto)
-
-    # CORREÇÃO: Limpa números de documentos mesmo se o OCR colocar espaços no ponto (ex: 772865 .209)
     texto = re.sub(r'\b\d+(?:\s*\.\s*\d+)+\b', '', texto)
     
-    # Limpa caracteres sujos (como o '@' que apareceu no cabeçalho)
-    texto = texto.replace('(', '').replace(')', '').replace('*', '').replace('-', ' ').replace('@', '')
+    # CORREÇÃO 2: Corretor Ortográfico de OCR
+    texto = re.sub(r'\b10F\b', 'IOF', texto, flags=re.IGNORECASE)
+    texto = re.sub(r'\b3UROS\b', 'JUROS', texto, flags=re.IGNORECASE)
+
+    texto = re.sub(r'[-_—–|@]', ' ', texto)
+    texto = texto.replace('(', '').replace(')', '').replace('*', '')
+    texto = re.sub(r'^[^\w\s]+|[^\w\s]+$', '', texto.strip())
     
     return " ".join(texto.split())
 
 def extrair_dados_viacredi(caminho_pdf):
     print("\n" + "="*50)
-    print(" FASE 3: MÁQUINA DE ESTADOS VIACREDI (AILOS) ")
+    print(" FASE 3: MÁQUINA DE ESTADOS VIACREDI (CORRETOR DE SINAL ATIVADO) ")
     print("="*50 + "\n")
     
     texto_completo = ""
@@ -49,26 +56,33 @@ def extrair_dados_viacredi(caminho_pdf):
     linhas = texto_completo.split('\n')
     transacoes_estruturadas = []
     
-    # CORREÇÃO: Agora a data pode começar com 1 ou 2 dígitos (\d{1,2})
     padrao_data = re.compile(r'(\d{1,2}/\d{2}/\d{4})')
-    padrao_valor = re.compile(r'(?:^|\s)([-=]?)\s*(\d{1,3}(?:\.\d{3})*,\d{2})(?!\d)', re.IGNORECASE)
+    
+    # CORREÇÃO 1: Radar flexível que aceita "548, 00" ou "28, 28"
+    padrao_valor = re.compile(r'(?:^|\s)([-=]?)\s*(\d{1,3}(?:\s*\.\s*\d{3})*\s*,\s*\d{2})(?!\d)', re.IGNORECASE)
 
-    # CORREÇÃO: Adicionamos variações com e sem acento para blindar o cabeçalho
-    palavras_rodape = ["OS DADOS ACIMA", "OUVIDORIA", "SAC 0800", "SALDO ANTERIOR", "TOTAL", "PERÍODO", "PERIODO", "NOME:", "COOPERATIVA:"]
+    gatilhos_fechar_porta = [
+        "OS DADOS ACIMA", "OUVIDORIA", "SAC 0800", "SALDO ANTERIOR", "TOTAL", 
+        "PERÍODO", "PERIODO", "NOME:", "COOPERATIVA:", "EMITIDO EM", 
+        "DATA", "DESCRIÇÃO", "DOCUMENTO", "CRÉDITO", "DÉBITO", "SALDO (",
+        "AILOS", "SISTEMA DE COOPERATIVAS", "EXTRATO"
+    ]
+
+    porta_aberta = False
 
     for linha in linhas:
         linha_original = linha.strip()
         if not linha_original:
             continue
 
-        # Blindagem do cabeçalho
-        if any(rodape in linha_original.upper() for rodape in palavras_rodape):
+        if any(bloqueio in linha_original.upper() for bloqueio in gatilhos_fechar_porta):
+            porta_aberta = False
             continue 
 
         busca_data = padrao_data.search(linha_original)
 
         if busca_data:
-            # Pega a data encontrada e formata. Se for "2/02/2026", o zfill(10) preenche o zero: "02/02/2026"
+            porta_aberta = True
             data_memoria = busca_data.group(1).zfill(10)
             
             transacoes_estruturadas.append({
@@ -85,10 +99,19 @@ def extrair_dados_viacredi(caminho_pdf):
                     sinal, valor_texto = valores_encontrados[0]
                     
                 multiplicador = -1 if ('-' in sinal or '=' in sinal or '-' in valor_texto or '=' in valor_texto) else 1
-                valor_limpo = re.sub(r'[-=]', '', valor_texto).replace('.', '').replace(',', '.')
+                
+                # CORREÇÃO 3: O Scanner de Sinal Inteligente
+                # Se o OCR perdeu o sinal de menos, o contexto salva a matemática.
+                palavras_debito = ['DEBITO', 'PG.P/', 'TR.INTERNET', 'TR. INTERNET', 'IOF', 'JUROS', 'LIQ.COB', 'DB.', 'DEB.', 'TARIFA', 'SAQ.', 'PAGADOR', 'BAIXA BOLETO', 'CONSORCIO']
+                if multiplicador == 1:
+                    if any(p in linha_original.upper() for p in palavras_debito):
+                        multiplicador = -1
+                
+                # Limpa os espaços acidentais antes de transformar em número
+                valor_limpo = re.sub(r'[-=\s]', '', valor_texto).replace('.', '').replace(',', '.')
                 transacoes_estruturadas[-1]["Valor"] = float(valor_limpo) * multiplicador
                 
-        elif transacoes_estruturadas:
+        elif porta_aberta and transacoes_estruturadas:
             texto_complemento = limpar_historico_viacredi(linha_original)
             if texto_complemento:
                 transacoes_estruturadas[-1]["Historico"] += f" {texto_complemento}"
@@ -102,13 +125,18 @@ def extrair_dados_viacredi(caminho_pdf):
                         sinal, valor_texto = valores_encontrados[0]
                         
                     multiplicador = -1 if ('-' in sinal or '=' in sinal or '-' in valor_texto or '=' in valor_texto) else 1
-                    valor_limpo = re.sub(r'[-=]', '', valor_texto).replace('.', '').replace(',', '.')
+                    
+                    palavras_debito = ['DEBITO', 'PG.P/', 'TR.INTERNET', 'TR. INTERNET', 'IOF', 'JUROS', 'LIQ.COB', 'DB.', 'DEB.', 'TARIFA', 'SAQ.', 'PAGADOR', 'BAIXA BOLETO', 'CONSORCIO']
+                    if multiplicador == 1:
+                        if any(p in linha_original.upper() for p in palavras_debito):
+                            multiplicador = -1
+                            
+                    valor_limpo = re.sub(r'[-=\s]', '', valor_texto).replace('.', '').replace(',', '.')
                     transacoes_estruturadas[-1]["Valor"] = float(valor_limpo) * multiplicador
 
     for t in transacoes_estruturadas:
         t["Historico"] = limpar_historico_viacredi(t["Historico"])[:100].strip()
 
-    # MÓDULO ANTI-DUPLICIDADE
     transacoes_finais = [t for t in transacoes_estruturadas if t["Valor"] != 0.0]
     frequencia_transacoes = {}
     
