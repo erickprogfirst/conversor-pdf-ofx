@@ -1,88 +1,80 @@
 import datetime
+import re
 
-def gerar_ofx(transacoes, caminho_saida="extrato_convertido.ofx"):
-    """Recebe as transações limpas e monta o arquivo OFX oficial."""
-    print("\n" + "="*50)
-    print(" INICIANDO GERAÇÃO DO ARQUIVO OFX ")
-    print("="*50 + "\n")
-    
-    if not transacoes:
-        print("❌ Nenhuma transação para converter.")
-        return False
+def gerar_ofx(transacoes, caminho_saida="extrato.ofx"):
+    def limpar_memo(texto):
+        return re.sub(r'[^\w\s]', '', texto)[:32].strip()
 
-    # Cabeçalho padrão obrigatório de arquivos OFX
-    ofx_texto = """OFXHEADER:100
+    header = f"""OFXHEADER:100
 DATA:OFXSGML
 VERSION:102
 SECURITY:NONE
-ENCODING:USASCII
-CHARSET:1252
+ENCODING:UTF-8
+CHARSET:NONE
 COMPRESSION:NONE
 OLDFILEUID:NONE
 NEWFILEUID:NONE
 
 <OFX>
-  <SIGNONMSGSRSV1>
-    <SONRS>
-      <STATUS>
-        <CODE>0</CODE>
-        <SEVERITY>INFO</SEVERITY>
-      </STATUS>
-      <DTSERVER>20260602120000[-3:BRT]</DTSERVER>
-      <LANGUAGE>POR</LANGUAGE>
-    </SONRS>
-  </SIGNONMSGSRSV1>
-  <BANKMSGSRSV1>
-    <STMTTRNRS>
-      <TRNUID>1</TRNUID>
-      <STATUS>
-        <CODE>0</CODE>
-        <SEVERITY>INFO</SEVERITY>
-      </STATUS>
-      <STMTRS>
-        <CURDEF>BRL</CURDEF>
-        <BANKACCTFROM>
-          <BANKID>104</BANKID>
-          <ACCTID>999999999</ACCTID>
-          <ACCTTYPE>CHECKING</ACCTTYPE>
-        </BANKACCTFROM>
-        <BANKTRANLIST>
+<SIGNONMSGSRQV1>
+<SONRQ>
+<DTCLIENT>{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}
+<USERID>0
+<LANGUAGE>POR
+<FI>
+<ORG>STONE
+</FI>
+<APPID>QWIN
+<APPVER>2500
+</SONRQ>
+</SIGNONMSGSRQV1>
+<BANKMSGSRQV1>
+<STMTTRNRS>
+<TRNUID>1
+<STATUS>
+<CODE>0
+<SEVERITY>INFO
+</STATUS>
+<STMTRS>
+<CURDEF>BRL
+<BANKACCTFROM>
+<BANKID>333
+<ACCTID>0001
+<ACCTTYPE>CHECKING
+</BANKACCTFROM>
+<BANKTRANLIST>
 """
 
-    # Inserindo cada transação na estrutura XML do OFX
-    contador = 1
-    for t in transacoes:
-        # Arruma a data de DD/MM/AAAA para AAAAMMDD (Padrão OFX)
-        dia, mes, ano = t['Data'].split('/')
-        data_ofx = f"{ano}{mes}{dia}120000[-3:BRT]"
+    corpo = ""
+    for i, t in enumerate(transacoes):
+        data_raw = t['Data'].replace("/", "")
+        data_ofx = data_raw[4:] + data_raw[2:4] + data_raw[:2]
         
-        # Define se é Crédito ou Débito
-        tipo_trn = "CREDIT" if t['Valor'] >= 0 else "DEBIT"
+        valor = float(t['Valor'])
+        tipo = "CREDIT" if valor >= 0 else "DEBIT"
+        fitid = f"{data_ofx}{i:04d}"
         
-        # Cria as tags da transação
-        ofx_texto += "          <STMTTRN>\n"
-        ofx_texto += f"            <TRNTYPE>{tipo_trn}</TRNTYPE>\n"
-        ofx_texto += f"            <DTPOSTED>{data_ofx}</DTPOSTED>\n"
-        ofx_texto += f"            <TRNAMT>{t['Valor']:.2f}</TRNAMT>\n"
-        ofx_texto += f"            <FITID>DOC{contador}</FITID>\n"
-        ofx_texto += f"            <MEMO>{t['Historico']}</MEMO>\n"
-        ofx_texto += "          </STMTTRN>\n"
-        
-        contador += 1
+        # Estrutura INVIOLÁVEL para cada transação
+        corpo += f"""<STMTTRN>
+<TRNTYPE>{tipo}
+<DTPOSTED>{data_ofx}120000[-03:EST]
+<TRNAMT>{valor:.2f}
+<FITID>{fitid}
+<MEMO>{limpar_memo(t['Historico'])}
+</STMTTRN>
+"""
 
-    # Fechamento do arquivo
-    ofx_texto += """        </BANKTRANLIST>
-      </STMTRS>
-    </STMTTRNRS>
-  </BANKMSGSRSV1>
+    footer = f"""</BANKTRANLIST>
+<LEDGERBAL>
+<BALAMT>0.00
+<DTASOF>{datetime.datetime.now().strftime("%Y%m%d")}
+</LEDGERBAL>
+</STMTRS>
+</STMTTRNRS>
+</BANKMSGSRQV1>
 </OFX>"""
 
-    # Cria o arquivo fisicamente na sua pasta
-    try:
-        with open(caminho_saida, "w", encoding="utf-8") as arquivo:
-            arquivo.write(ofx_texto)
-        print(f"✅ SUCESSO ABSOLUTO! Arquivo salvo como: {caminho_saida}")
-        return True
-    except Exception as e:
-        print(f"❌ Erro ao salvar o arquivo: {e}")
-        return False
+    with open(caminho_saida, 'w', encoding='utf-8') as f:
+        f.write(header + corpo + footer)
+    
+    print(f"✅ Arquivo OFX estruturado gerado com sucesso.")
