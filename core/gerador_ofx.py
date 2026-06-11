@@ -2,8 +2,13 @@ import datetime
 import re
 
 def gerar_ofx(transacoes, caminho_saida="extrato.ofx"):
+    
+    # Nova função de limpeza: Permite até 255 caracteres e mantém a formatação (pontos, traços, etc.)
     def limpar_memo(texto):
-        return re.sub(r'[^\w\s]', '', texto)[:32].strip()
+        # Remove apenas caracteres que quebram o código XML do OFX (<, >, &)
+        texto_seguro = str(texto).replace('<', ' ').replace('>', ' ').replace('&', 'E')
+        # Liberta o limite para 255 caracteres (o ERP vai ler a descrição completa agora)
+        return texto_seguro[:255].strip()
 
     header = f"""OFXHEADER:100
 DATA:OFXSGML
@@ -22,7 +27,7 @@ NEWFILEUID:NONE
 <USERID>0
 <LANGUAGE>POR
 <FI>
-<ORG>STONE
+<ORG>CONVERSOR</ORG>
 </FI>
 <APPID>QWIN
 <APPVER>2500
@@ -38,8 +43,8 @@ NEWFILEUID:NONE
 <STMTRS>
 <CURDEF>BRL
 <BANKACCTFROM>
-<BANKID>333
-<ACCTID>0001
+<BANKID>999
+<ACCTID>000000
 <ACCTTYPE>CHECKING
 </BANKACCTFROM>
 <BANKTRANLIST>
@@ -47,14 +52,15 @@ NEWFILEUID:NONE
 
     corpo = ""
     for i, t in enumerate(transacoes):
+        # Conversão de data
         data_raw = t['Data'].replace("/", "")
         data_ofx = data_raw[4:] + data_raw[2:4] + data_raw[:2]
         
+        # Conversão de valor e tipo
         valor = float(t['Valor'])
         tipo = "CREDIT" if valor >= 0 else "DEBIT"
         fitid = f"{data_ofx}{i:04d}"
         
-        # Estrutura INVIOLÁVEL para cada transação
         corpo += f"""<STMTTRN>
 <TRNTYPE>{tipo}
 <DTPOSTED>{data_ofx}120000[-03:EST]
@@ -77,4 +83,4 @@ NEWFILEUID:NONE
     with open(caminho_saida, 'w', encoding='utf-8') as f:
         f.write(header + corpo + footer)
     
-    print(f"✅ Arquivo OFX estruturado gerado com sucesso.")
+    print(f"✅ Arquivo OFX estruturado gerado com descrição completa.")

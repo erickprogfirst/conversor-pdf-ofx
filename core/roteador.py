@@ -1,4 +1,5 @@
 import os
+from extratores.extrator_sicoob import extrair_dados_sicoob
 from extratores.extrator_santander import extrair_dados_santander
 from extratores.extrator_viacredi_v3 import extrair_dados_viacredi_v3
 from extratores.extrator_base import extrair_texto_primeira_pagina
@@ -35,6 +36,11 @@ def identificar_e_rotear(caminho_pdf):
             # Se não for o Layout 2, usa automaticamente a nova V3 (Leitura Digital)
             print("🏦 Banco Identificado: VIACREDI (V3 - LEITURA DIGITAL)")
             transacoes_limpas = extrair_dados_viacredi_v3(caminho_pdf)
+
+    elif "SICOOB" in texto_upper:
+        print("🏦 Banco Identificado: SICOOB (LEITURA DIGITAL)")
+        transacoes_limpas = extrair_dados_sicoob(caminho_pdf)
+                
     elif "VIACREDI" in texto_upper:
         print("🏦 Banco Identificado: VIACREDI (V3 - LEITURA DIGITAL)")
         # AQUI ESTAVA O ERRO: Tem de chamar a função que tem o "_v3" no fim!
